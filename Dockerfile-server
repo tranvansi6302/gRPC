@@ -1,0 +1,18 @@
+FROM node:16.14.2-alpine3.15
+
+WORKDIR /app
+
+# Copy package files and install dependencies
+COPY ./server/package.json .
+COPY ./server/package-lock.json .
+
+RUN npm install
+
+# Copy the necessary files and directories
+COPY ./proto/greeting.proto .
+COPY ./server/server.js .
+COPY ./server/configs ./configs
+COPY ./server/models ./models
+
+# Set the entry point to start the server
+ENTRYPOINT ["node", "server.js"]
